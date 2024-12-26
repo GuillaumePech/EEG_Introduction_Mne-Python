@@ -1,14 +1,3 @@
-These scripts have been created to demonstrate different steps in EEG studies. They have been created through different studies and have been use as materials for class:
-
-prep_eeg_check_trigger: Used after the first pilot to check the structure of the EEG data.
-prep_eeg_bids: Converts all data to BIDS format (Reference: Gorgolewski, K. J., Auer, T., Calhoun, V. D., Craddock, R. C., Das, S., Duff, E. P., ... & Poldrack, R. A. (2016). The brain imaging data structure, a format for organizing and describing outputs of neuroimaging experiments. Scientific Data, 3(1), 1-9).
-prep_eeg_semi-auto_stage1: Detects bad channels, performs ICA, and automatically saves ICA component figures for all participants.
-- prep_eeg_semi-auto_stage2: Removes bad ICA components based on visual inspection of the figures. It also allows for manually annotating bad segments/electrodes if bad ICA decompositions were detected in the first stage.
-- post_eeg_ERP: Visualizes and extracts EEG data in the time domain at the trial level.
-- post_eeg_TFR: Visualizes and extracts EEG data in the time-frequency domain at the trial level. Using the single-trial normalization of Grandchamp, R., & Delorme, A. (2011). Single-trial normalization for event-related spectral decomposition reduces sensitivity to noisy trials. Frontiers in psychology, 2, 236.
-
-
--------------------------------------------------------
 prep_eeg_check_trigger : 
 This script focuses on verifying that the data structure and metadata match the expected recording setup.
 Interactive visualization helps ensure that the events in the data align with experimental expectations.
@@ -24,7 +13,7 @@ Confirmation that the EEG data is accessible and loaded for further processing.
 
 ---------------------------------------------------
 
-prep_eeg_bids :
+prep_eeg_bis :
 
 This Python script processes raw EEG data files in .bdf (Biosemi format), resamples them, identifies and cleans event markers, and exports the processed data to the BIDS (Brain Imaging Data Structure) format. The BIDS format is widely used for organizing and sharing neuroimaging data.
 
@@ -131,7 +120,7 @@ Saving Processed Data:
 The preprocessed EEG data is saved in .fif format.
 Bad channels and ICA components are logged into two text files: list_bad_channels.txt and list_bad_ica.txt.
 
----------------------------------------------------------
+
 
 post_eeg_ERP :
 
@@ -200,56 +189,8 @@ evokeds_RP_all: Dictionary storing the average evoked responses for each conditi
 
 
 
----------------------------------------------------------
-post_eeg_TFR
 
 
-This code provides a comprehensive pipeline for EEG data analysis in the context of Time-frequency analysis. It automate preprocessing, time-frequency analysis, and feature extraction. The outputs generated can be used for statistical modeling (e.g. mixed models).
-
-
-Trial Rejection (drop_trials function):
-
-Implements criteria-based trial rejection based on peak-to-peak amplitude, mean amplitude, and slope within a specified time window.
-Helps in cleaning the data by removing artifacts and outliers that could affect the analysis.
-
-Data Preprocessing:
-
-Loads raw EEG data files in .fif format for each participant.
-Sets the EEG reference using the Reference Electrode Standardization Technique (REST).
-Handles specific cases where participants have missing conditions or events.
-Event Handling:
-
-Defines event dictionaries for different conditions (forced/free, authority/group/individual influence, yes/no answers).
-Extracts events from annotations and creates epochs around these events.
-Time-Frequency Analysis:
-
-Computes time-frequency representations (TFR) using Morlet wavelets over a range of frequencies (2 to 30 Hz).
-Applies baseline correction using the method of Grandchamp and Delorme to standardize the data across trials and participants.
-Data Aggregation and Visualization:
-
-Computes grand averages of the TFR data across participants and conditions.
-Creates masks to identify significant time-frequency regions based on statistical thresholds.
-Visualizes the results using time-frequency plots with significance masks.
-Feature Extraction and Data Export:
-
-Extracts frontal-midline theta (FMtheta) power values from significant regions.
-Calculates reaction times (RT) between visualization and selection events.
-Writes the extracted features along with participant information to a CSV file for further statistical analysis.
-How to Use the Code:
-
-Participant-Specific Adjustments:
-
-The script includes adjustments for specific participants who may have missing data or require special handling.
-Ensure that these adjustments are appropriate for your dataset or modify them accordingly.
-Baseline Correction:
-
-Baseline correction is crucial for comparing neural activity across trials and participants.
-The method of Grandchamp and Delorme is used to standardize the data.
-
-Statistical Thresholds:
-
-Significance thresholds are set based on z-scores corresponding to common p-values (e.g., p < 0.05).
-These thresholds are used to create masks highlighting significant time-frequency regions.
 
 
 
